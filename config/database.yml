@@ -48,7 +48,11 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: todo-app_production
-  username: todo-app
-  password: <%= ENV['TODO-APP_DATABASE_PASSWORD'] %>
+  production:
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  database: todo_app_production
+  username: root
+  password:
+  socket: /var/lib/mysql/mysql.sock
