@@ -3,5 +3,5 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     nodejs
 WORKDIR /todo-app
-COPY Gemfile Gemfile.lock /todo-app/
+COPY Gemfile Gemfile.lock .ssh /todo-app/
 RUN bundle install
