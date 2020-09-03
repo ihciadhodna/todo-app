@@ -64,4 +64,4 @@
 server '54.248.159.177', user: 'daichi', roles: %w{app db web} 
 
 #デプロイするサーバーにsshログインする鍵の情報を記述
-set :ssh_options, keys: './.ssh/todo-app_rsa' 
+set :ssh_options, keys: '/todo-app/.ssh/todo-app_key_rsa' 

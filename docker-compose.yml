@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   mysql-data:
+  key-data:
 
 services:
   web:
@@ -11,6 +12,7 @@ services:
       - '3000:3000'
     volumes:
       - '.:/todo-app'
+      - 'key-data:/todo-app/.ssh'
     tty: true
     stdin_open: true
     depends_on:
