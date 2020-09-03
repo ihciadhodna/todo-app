@@ -21,12 +21,12 @@ set :deploy_to, "/var/www/rails/todo-app"
 # set :pty, true
 
 # Default value for :linked_files is []
-# append :linked_files, "config/database.yml"
-set :linked_files, fetch(:linked_files, []).push('config/credentials.yml.enc')
+append :linked_files, "config/secrets.yml"
+# set :linked_files, fetch(:linked_files, []).push('config/credentials.yml.enc')
 
 # Default value for linked_dirs is []
-# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
