@@ -45,6 +45,8 @@ group :development, :test do
   gem 'capistrano-rbenv'
   gem 'ed25519'
   gem 'bcrypt_pbkdf'
+
+  gem 'rspec-rails'
 end
 
 group :development do
