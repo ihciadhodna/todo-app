@@ -104,7 +104,7 @@ workflows:
       - install_dependencies:
       - rspec:
           requires:
-            - install_dependencies
+              - install_dependencies
       - deploy:
           requires:
-            - rspec
+              - rspec
