@@ -77,6 +77,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "d7:ae:dc:0b:66:cb:57:f8:24:19:97:5f:88:48:93:42"
+          command:
+            - "ssh-add todo-app_key_rsa"
 
       - deploy:
           name: Capistrano deploy
