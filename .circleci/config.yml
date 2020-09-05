@@ -12,9 +12,9 @@ executors:
           DB_USERNAME: 'root' 
           DB_PASSWORD: ''
       - image: circleci/mysql:5.7
-          environment:
-            MYSQL_ROOT_HOST: "%"
-            MYSQL_ROOT_PASSWORD: ''
+        environment:
+          MYSQL_ROOT_HOST: "%"
+          MYSQL_ROOT_PASSWORD: ''
     working_directory: ~/todo-app
 
 jobs:  
