@@ -83,12 +83,12 @@ jobs:
           paths: 
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      # - run:
+      #     name: Wait for DB
+      #     command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
       # Database setup
-      - run: bundle exec rails db:create
-      - run: bundle exec rails db:schema:load
+      # - run: bundle exec rails db:create
+      # - run: bundle exec rails db:schema:load
       - add_ssh_keys:
           fingerprints:
             - "d7:ae:dc:0b:66:cb:57:f8:24:19:97:5f:88:48:93:42"
