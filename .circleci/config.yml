@@ -73,8 +73,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
       - run:
           name: install dependencies
           command: |
@@ -94,7 +94,8 @@ jobs:
             - "d7:ae:dc:0b:66:cb:57:f8:24:19:97:5f:88:48:93:42"
       - deploy:
           name: Capistrano deploy
-          command: bundle exec cap production deploy
+          command: 
+            bundle exec cap production deploy
 
 workflows:
   version: 2
