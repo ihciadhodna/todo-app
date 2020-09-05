@@ -1,8 +1,7 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+executors:
+  ruby_excutor:
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.5.8-node-browsers
         environment:
           RAILS_ENV: test
@@ -12,27 +11,22 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_USERNAME: 'root' 
           DB_PASSWORD: ''
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/mysql:5.7
-        environment:
-          MYSQL_ROOT_HOST: "%"
-          MYSQL_ROOT_PASSWORD: ''
-          
+          environment:
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_ROOT_PASSWORD: ''
     working_directory: ~/todo-app
 
+jobs:  
+  install_dependencies:
+    executor:
+      name: ruby_executor
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
       - run:
           name: install dependencies
           command: |
@@ -41,32 +35,33 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
+  
+  rspec:
+    executor:
+      name: ruby_executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: |
+            bundle install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
-
       # Database setup
       - run: bundle exec rails db:create
       - run: bundle exec rails db:schema:load
-      
       - run:
           name: Rspec
           command: bundle exec rspec
-
-      # run tests!
-#       - run:
-#           name: run tests
-#           command: |
-#             mkdir /tmp/test-results
-#             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-
-#             bundle exec rspec --format progress \
-#                             --format RspecJunitFormatter \
-#                             --out /tmp/test-results/rspec.xml \
-#                             --format progress \
-#                             $TEST_FILES
-                            
       # collect reports
       - store_test_results:
           path: /tmp/test-results
@@ -74,12 +69,39 @@ jobs:
           path: /tmp/test-results
           destination: test-results
 
+  deploy:
+    executor:
+    name: ruby_executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: |
+            bundle install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - add_ssh_keys:
           fingerprints:
             - "d7:ae:dc:0b:66:cb:57:f8:24:19:97:5f:88:48:93:42"
-            # - "de:6f:d9:fd:fe:4e:a4:34:b2:d9:13:6f:71:be:1d:8c"
-
       - deploy:
           name: Capistrano deploy
           command:
             bundle exec cap production deploy
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - install_dependencies
+      - rspec:
+          requires:
+            - install_dependencies
+      -deploy:
+          requires:
+            - rspec
