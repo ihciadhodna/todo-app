@@ -68,5 +68,5 @@ server '54.248.159.177', user: 'daichi', roles: %w{app db web}
 
 set :ssh_options, {  
   keys: ["#{ENV.fetch('PRODUCTION_SSH_KEY')}"],  
-  forward_agent: true
+  # forward_agent: true
 }  
