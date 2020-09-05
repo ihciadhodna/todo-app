@@ -98,7 +98,8 @@ jobs:
             bundle exec cap production deploy
 
 workflows:
-  build:
+  version: 2
+  test_and_deploy:
     jobs:
       - install_dependencies:
       - rspec:
