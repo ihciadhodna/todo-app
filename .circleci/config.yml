@@ -82,8 +82,8 @@ jobs:
       - run:
           name: Add key
           command:
-            ssh-add ~/.ssh/id_rsa_d7aedc0b66cb57f82419975f88489342 \
-            ssh-add ~/.ssh/id_rsa_de6fd9fdfe4ea434b2d9136f71be1d8c
+            ssh-add ~/.ssh/docker_git_rsa \
+            ssh-add ~/.ssh/todo-app_key_rsa
 
       - deploy:
           name: Capistrano deploy
