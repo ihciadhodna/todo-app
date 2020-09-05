@@ -19,8 +19,7 @@ executors:
 
 jobs:  
   install_dependencies:
-    executor:
-      name: ruby_executor
+    executor: ruby_executor
     steps:
       - checkout
       - restore_cache:
@@ -37,8 +36,7 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
   
   rspec:
-    executor:
-      name: ruby_executor
+    executor: ruby_executor
     steps:
       - checkout
       - restore_cache:
@@ -70,8 +68,7 @@ jobs:
           destination: test-results
 
   deploy:
-    executor:
-    name: ruby_executor
+    executor: ruby_executor
     steps:
       - checkout
       - restore_cache:
