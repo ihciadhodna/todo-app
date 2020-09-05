@@ -80,8 +80,7 @@ jobs:
           command: |
             bundle install
       - save_cache:
-          paths:
-            - ./vendor/bundle
+          paths: ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - run:
           name: Wait for DB
@@ -104,7 +103,7 @@ workflows:
       - install_dependencies:
       - rspec:
           requires:
-              - install_dependencies
+            - install_dependencies
       - deploy:
           requires:
-              - rspec
+            - rspec
