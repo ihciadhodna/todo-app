@@ -98,3 +98,6 @@ workflows:
       - deploy:
           requires:
             - rspec
+          filters:
+            branches:
+              only: master
